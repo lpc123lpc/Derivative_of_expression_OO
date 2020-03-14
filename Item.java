@@ -17,7 +17,7 @@ public class Item {
 
     public boolean getFactor() {
         boolean flag = true;
-        String integer = "(?<int>[+-]?\\d+)";
+        String integer = "(?<int>([+-]*\\d+)|([+-]+\\d*))";
         String factor1 = "(?<var>x(\\*{2}[+-]?\\d+)?)";
         String factor2 = "(?<tri>((sin)|(cos)))";
         String factor = "(" + factor1 + "|" + factor2 + "|" + integer + ")";
