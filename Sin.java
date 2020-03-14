@@ -63,7 +63,7 @@ public class Sin implements Factor {
                 return "cos(" + var + ")*(" + der + ")";
             } else {
                 return "sin(" + var + ")**" + newIndex.toString() +
-                        ")*cos(" + var + ")*(" + der + ")";
+                        "*cos(" + var + ")*(" + der + ")";
             }
         }
     }

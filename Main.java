@@ -17,8 +17,6 @@ public class Main {
             int st = expression.indexOf('(');
             int en = expression.lastIndexOf(')');
             newExp = expression.substring(0,st) + expression.substring(st + 1,en) + expression.substring(en + 1);
-            System.out.println(newExp);
-
         }
         else {
             newExp = expression;
