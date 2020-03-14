@@ -49,7 +49,7 @@ public class Cos implements Factor {
                 return "sin(" + var + ")*(" + der + ")";
             } else {
                 return "cos(" + var + ")**" + newIndex.toString() +
-                        ")*sin(" + var + ")*(" + der + ")";
+                        "*sin(" + var + ")*(" + der + ")";
             }
         }
     }

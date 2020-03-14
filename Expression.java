@@ -108,6 +108,7 @@ public class Expression {
 
     public String getNew(String s) {
         String flag;
+        String out = s;
         String sub;
         if (s.length() > 4) {
             sub = s.substring(0,4);
@@ -135,9 +136,9 @@ public class Expression {
             else {
                 flag = "+";
             }
-
-            return flag + s.substring(end);
+            out = flag + s.substring(end);
         }
+
 
         return s;
     }
