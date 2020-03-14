@@ -23,10 +23,24 @@ public class Sin implements Factor {
         Matcher m = p.matcher(var);
         if (m.find()) {
             int start = var.indexOf("(");
-            int end;
+            int end=0;
             sub = var.substring(0,start);
             if (sub.matches("[\t ]*")) {
-                end = var.lastIndexOf(")");
+                int sum = 0;
+                for (int i = start ;i < var.length();i++) {
+                    if (var.charAt(i) == '(') {
+                        sum++;
+                    }
+                    else if (var.charAt(i) == ')') {
+                        sum--;
+                        if (sum == 0) {
+                            end = i;
+                        }
+                        else {
+                            end = var.length() - 1;
+                        }
+                    }
+                }
                 sub = var.substring(start + 1,end);
             }
             else if (sub.matches("[\t ]*[+-]+[\t ]*")) {
@@ -61,10 +75,10 @@ public class Sin implements Factor {
     @Override
     public String getOri() {
         if (index.equals(BigInteger.ONE)) {
-            return "sin(x)";
+            return "sin(" + var + ")";
         }
         else {
-            return "sin(x)**" + index.toString();
+            return "sin(" + var + ")**" + index.toString();
         }
     }
 

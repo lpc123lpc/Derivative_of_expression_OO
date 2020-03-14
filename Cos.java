@@ -61,10 +61,10 @@ public class Cos implements Factor {
     @Override
     public String getOri() {
         if (index.equals(BigInteger.ONE)) {
-            return "cos(x)";
+            return "cos(" + var + ")";
         }
         else {
-            return "cos(x)**" + index.toString();
+            return "cos(" + var + ")**" + index.toString();
         }
     }
 

@@ -21,19 +21,17 @@ public class Expression {
         String integer = "[+-]?\\d+";
         String factor1 = "x(\\*{2}[+-]?\\d+)?";
         String factor2 = "((sin)|(cos))\\(.+\\)(\\*{2}[+-]?\\d+)?";
-        String factor = "(" + factor1 + "|" + factor2 + "|" + integer + ")";
+        String factor3 = "\\(.*\\)";
+        String factor = "(" + factor1 + "|" + factor2 + "|" + integer + "|" + factor3 + ")";
         String item = "[+-]{0,2}(" + factor + "\\*)*[+-]{0,2}" + factor;
         String exp = item + "([+-]?" + item + ")*";
 
-
-        String newExpression = expression.replaceAll("[\t ]","");
         //System.out.println(newExpression.matches(item));
-        boolean b = getFlag(newExpression);
+        boolean  b = getFormat();
         if (b) {
-            b = getFormat();
-        }
-        if (b) {
-            boolean flag = true;
+            String newExpression = expression.replaceAll("[\t ]","");
+            boolean flag = newExpression.matches(exp);
+
             newExpression = getNew(newExpression);
             item = "[+-]*(" + factor + "\\*)*" + factor;
             Pattern p = Pattern.compile(item);
@@ -148,7 +146,7 @@ public class Expression {
     public boolean getFormat() {
 
 
-        Pattern p2 = Pattern.compile("\\*.+\\*");
+        Pattern p2 = Pattern.compile("\\*\\s+\\*");
         Matcher m2 = p2.matcher(expression);
         if (m2.find()) {
             return false;
