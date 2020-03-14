@@ -1,6 +1,8 @@
 package third;
 
 import java.math.BigInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Sin implements Factor {
     private String var;
@@ -17,7 +19,9 @@ public class Sin implements Factor {
         String factor1 = "x(\\*{2}[+-]?\\d+)?";
         String factor2 = "((sin)|(cos))\\(.+\\)(\\*{2}[+-]?\\d+)?";
         String sub = var;
-        if (var.contains("(")) {
+        Pattern p = Pattern.compile("^[\t ]*\\(");
+        Matcher m = p.matcher(var);
+        if (m.find()) {
             int start = var.indexOf("(");
             int end;
             sub = var.substring(0,start);

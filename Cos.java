@@ -1,6 +1,8 @@
 package third;
 
 import java.math.BigInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Cos implements Factor {
     private BigInteger index;
@@ -17,13 +19,15 @@ public class Cos implements Factor {
         String factor1 = "x(\\*{2}[+-]?\\d+)?";
         String factor2 = "((sin)|(cos))\\(.+\\)(\\*{2}[+-]?\\d+)?";
         String sub = var;
-        if (var.contains("(")) {
+        Pattern p = Pattern.compile("^[\t ]*\\(");
+        Matcher m = p.matcher(var);
+        if (m.find()) {
             int start = var.indexOf("(");
             int end;
             sub = var.substring(0,start);
-            if (sub.matches("[\t ]")) {
+            if (sub.matches("[\t ]*")) {
                 end = var.lastIndexOf(")");
-                sub = var.substring(start,end);
+                sub = var.substring(start + 1,end);
             }
             else if (sub.matches("[\t ]*[+-]+[\t ]*")) {
                 return null;

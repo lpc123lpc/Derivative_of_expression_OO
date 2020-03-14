@@ -19,21 +19,22 @@ public class Item {
         boolean flag = true;
         String integer = "(?<int>[+-]?\\d+)";
         String factor1 = "(?<var>x(\\*{2}[+-]?\\d+)?)";
-        String factor2 = "(?<tri>((sin)|(cos))\\(.*?(\\(.*?\\))?.*?\\)(\\*{2}[+-]?\\d+)?)";
+        String factor2 = "(?<tri>((sin)|(cos)))";
         String factor = "(" + factor1 + "|" + factor2 + "|" + integer + ")";
-
-
-
 
         Pattern p = Pattern.compile(factor);
         Matcher m = p.matcher(poly);
         //System.out.println(poly+"hello");
         Creat();
         while (m.find() && flag) {
+            int end = 0;
+            int start = 0;
             String str = m.group(0);
             //System.out.println(str);
             if (m.group("int") != null) {
                 flag = getC(str);
+                end = m.end();
+                poly = poly.substring(end);
             }
             else if (m.group("var") != null) {
                 flag = getFlag(str);
@@ -53,24 +54,77 @@ public class Item {
                         fa[0].addIndex(index);
                     }
                 }
+                end = m.end();
+                poly = poly.substring(end);
             }
             else {
-                BigInteger index = getIndex(str);
-                if (!index.equals(BigInteger.ZERO)) {
-                    if (index.abs().compareTo(new BigInteger("50")) > 0) {
-                        flag = false;
-                    }
-                    if (flag) {
-                        flag = getFlag(str);
-                        add(index,str);
-                    }
+                int type;
+                if (m.group(0).contains("sin")) {
+                    type = 0;
                 }
+                else {
+                    type = 1;
+                }
+                flag = getW(m.start(),flag,type);
             }
+            m = p.matcher(poly);
         }
+
 
         ifRemove();
 
+
         return flag;
+    }
+
+    public boolean getW(int start,boolean flag,int type) {
+        int end = 0;
+        int endWhere = 0;
+        int startWhere = 0;
+        poly = poly.substring(start);
+        int sum = 0;
+        int fuck = 0;
+        for (int i = 0;i < poly.length();i++) {
+
+            if (poly.charAt(i) == '(') {
+                if (fuck == 0) {
+                    startWhere = i;
+                    fuck = 1;
+                }
+                sum++;
+            }
+            if ((poly.charAt(i) == ')') && fuck == 1) {
+                sum--;
+                if (sum == 0) {
+                    endWhere = i;
+                    break;
+                }
+            }
+        }
+        String var = poly.substring(startWhere,endWhere + 1);
+
+        poly = poly.substring(endWhere + 1);
+        String x = "^[\t ]*\\*{2}(?<int>[+-]?\\d+)";
+        Pattern p = Pattern.compile(x);
+        Matcher m = p.matcher(poly);
+        String in;
+        if (m.find()) {
+            in = m.group("int");
+            poly = poly.substring(m.end());
+        }
+        else {
+            in = "1";
+        }
+        BigInteger index = new BigInteger(in);
+        if (!index.equals(BigInteger.ZERO)) {
+            if (index.abs().compareTo(new BigInteger("50")) > 0) {
+                return false;
+            }
+            if (flag) {
+                add(index,var,type);
+            }
+        }
+        return true;
     }
 
     public boolean getC(String string) {
@@ -211,12 +265,12 @@ public class Item {
         return true;
     }
 
-    public void add(BigInteger index,String str) {
+    public void add(BigInteger index,String str,int type) {
         int start = str.indexOf("(");
         int end = str.lastIndexOf(")");
         String s = str.substring(start + 1,end);
         if (!index.equals(BigInteger.ZERO)) {
-            if (str.contains("sin")) {
+            if (type == 0) {
                 if (this.flag[1] == 0) {
                     fa[1] = new Sin(index,s);
                     this.flag[1] = 1;

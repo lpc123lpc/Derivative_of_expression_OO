@@ -1,5 +1,6 @@
 package third;
 
+import javax.crypto.Mac;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -27,11 +28,12 @@ public class Expression {
 
         String newExpression = expression.replaceAll("[\t ]","");
         //System.out.println(newExpression.matches(item));
-        //Pattern p = Pattern.compile(exp);
-        boolean b = newExpression.matches(exp) && getFlag(newExpression);
+        boolean b = getFlag(newExpression);
+        if (b) {
+            b = getFormat();
+        }
         if (b) {
             boolean flag = true;
-
             newExpression = getNew(newExpression);
             item = "[+-]*(" + factor + "\\*)*" + factor;
             Pattern p = Pattern.compile(item);
@@ -141,6 +143,24 @@ public class Expression {
         }
 
         return s;
+    }
+
+    public boolean getFormat() {
+
+
+        Pattern p2 = Pattern.compile("\\*.+\\*");
+        Matcher m2 = p2.matcher(expression);
+        if (m2.find()) {
+            return false;
+        }
+
+        String sp = "[\t ]+";
+        String sin = "(s" + sp + "i)|(i" + sp + "n)";
+        String cos = "(c" + sp + "o)|(o" + sp + "s)";
+        String ult = "(" + sin + ")|(" + cos+ ")";
+        Pattern p3 = Pattern.compile(ult);
+        Matcher m3 = p3.matcher(expression);
+        return !m3.find();
     }
 
 }
