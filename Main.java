@@ -16,7 +16,8 @@ public class Main {
         if (matcher.find()) {
             int st = expression.indexOf('(');
             int en = expression.lastIndexOf(')');
-            newExp = expression.substring(0,st) + expression.substring(st + 1,en) + expression.substring(en + 1);
+            newExp = expression.substring(0,st) + expression.substring(st + 1,en)
+                    + expression.substring(en + 1);
         }
         else {
             newExp = expression;
