@@ -23,11 +23,11 @@ public class Sin implements Factor {
         Matcher m = p.matcher(var);
         if (m.find()) {
             int start = var.indexOf("(");
-            int end=0;
+            int end = 0;
             sub = var.substring(0,start);
             if (sub.matches("[\t ]*")) {
                 int sum = 0;
-                for (int i = start ;i < var.length();i++) {
+                for (int i = start;i < var.length();i++) {
                     if (var.charAt(i) == '(') {
                         sum++;
                     }
@@ -48,7 +48,7 @@ public class Sin implements Factor {
             }
         }
         else {
-            if (!var.matches(factor1) && !var.matches(factor2)&&!var.matches(integer)) {
+            if (!var.matches(factor1) && !var.matches(factor2) && !var.matches(integer)) {
                 return null;
             }
         }
@@ -62,7 +62,8 @@ public class Sin implements Factor {
             if (newIndex.equals(BigInteger.ZERO)) {
                 return "cos(" + var + ")*(" + der + ")";
             } else {
-                return "sin(" + var + ")**" + newIndex.toString() + ")*cos(" + var + ")*(" + der + ")";
+                return "sin(" + var + ")**" + newIndex.toString() +
+                        ")*cos(" + var + ")*(" + der + ")";
             }
         }
     }

@@ -211,7 +211,7 @@ public class Item {
                 StringBuilder out;
                 out = new StringBuilder(coe.toString());
                 String temp = fa[i].getDerivation();
-                if(temp == null) {
+                if (temp == null) {
                     return null;
                 }
                 else if (temp.equals("")) {

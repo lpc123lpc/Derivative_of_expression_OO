@@ -48,7 +48,8 @@ public class Cos implements Factor {
             if (newIndex.equals(BigInteger.ZERO)) {
                 return "sin(" + var + ")*(" + der + ")";
             } else {
-                return "cos(" + var + ")**" + newIndex.toString() + ")*sin(" + var + ")*(" + der + ")";
+                return "cos(" + var + ")**" + newIndex.toString() +
+                        ")*sin(" + var + ")*(" + der + ")";
             }
         }
     }

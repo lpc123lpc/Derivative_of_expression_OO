@@ -1,6 +1,5 @@
 package third;
 
-import javax.crypto.Mac;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -71,7 +70,7 @@ public class Expression {
         StringBuilder sum = new StringBuilder();
         for (Item item : items) {
             String out = item.getDerivation();
-            if(out == null) {
+            if (out == null) {
                 return null;
             }
             output.add(out);
@@ -155,7 +154,7 @@ public class Expression {
         String sp = "[\t ]+";
         String sin = "(s" + sp + "i)|(i" + sp + "n)";
         String cos = "(c" + sp + "o)|(o" + sp + "s)";
-        String ult = "(" + sin + ")|(" + cos+ ")";
+        String ult = "(" + sin + ")|(" + cos + ")";
         Pattern p3 = Pattern.compile(ult);
         Matcher m3 = p3.matcher(expression);
         return !m3.find();
